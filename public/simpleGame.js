@@ -586,7 +586,7 @@ function Scene(){
     }
     
     this.setSize(500, 800);
-    this.setPos(1020, 10);
+    this.setPos(700, 10);
     this.setBG("lightgray");
     
 } // end Scene class def
