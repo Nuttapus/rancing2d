@@ -1,0 +1,443 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <title>carRacing</title>
+    <script type="text/javascript" src="./simpleGame.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="shortcut icon" href="./image/icon.png" />
+    <style>
+        body,
+        h1 {
+            font-family: "Raleway", sans-serif
+        }
+
+        body,
+        html {
+            height: 100%
+        }
+
+        .bgimg {
+            background-image: url('./image/bgcolor.png');
+            min-height: 100%;
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+    <script type="text/javascript">
+
+        var scene;
+        var car;
+        var enemy;
+        var count;
+        var timer;
+        var time;
+
+        var score = 0;
+        var countTime = 0;
+        var Road_SPEED = 8;
+        var NUM_ENEMY = 1;
+        var NUM_ENEMY1 = 1;
+        var NUM_ENEMY2 = 1;
+        var NUM_ENEMY3 = 1;
+        var NUM_ENEMY4 = 1;
+
+        function Enemy() {
+            tEnemy = new Sprite(scene, "./image/Black_viper.png", 100, 80);
+            tEnemy.reset = function () {
+                this.setDY(Road_SPEED);
+                this.setDX(0);
+                newX = Math.random() * scene.width - 70;
+                console.log(newX)
+                if (newX > 400) {
+                    newX = newX - 200
+                } else if (newX <= 110) {
+                    newX += 100
+                    if (newX <= 110) {
+                        newX += 100
+                    } else {
+                        newX = newX + 100
+                    }
+                    console.log(newX)
+                }
+                this.setPosition(newX, 120);
+            }
+            tEnemy.checkBounds = function () {
+                if (this.y > scene.height) {
+                    this.reset();
+                }
+            }
+            tEnemy.reset();
+            return tEnemy;
+        }
+        function makeEnemys() {
+            enemy = new Array(NUM_ENEMY);
+            for (i = 0; i < NUM_ENEMY; i++) {
+                enemy[i] = new Enemy();
+            }
+        }
+        function updateEnemys() {
+            for (i = 0; i < NUM_ENEMY; i++) {
+                enemy[i].update();
+            }
+        }
+        function Enemy1() {
+            tEnemy1 = new Sprite(scene, "./image/Car1.png", 100, 80);
+            tEnemy1.reset = function () {
+                this.setDY(Road_SPEED);
+                this.setDX(0);
+                newX = Math.random() * scene.width - 10;
+                if (newX > 400) {
+                    newX = newX - 200
+                } else if (newX <= 100) {
+                    newX += 100
+                    if (newX + 100 <= 110) {
+                        newX += 100
+                    } else {
+                        newX = newX + 100
+                    }
+                }
+                this.setPosition(newX, 40);
+            }
+            tEnemy1.checkBounds = function () {
+                // this.reset();
+                if (this.y > scene.height) {
+                    this.reset();
+                }
+            }
+            tEnemy1.reset();
+            return tEnemy1;
+        }
+        function makeEnemys1() {
+            enemy1 = new Array(NUM_ENEMY1);
+            for (i = 0; i < NUM_ENEMY1; i++) {
+                enemy1[i] = new Enemy1();
+            }
+        }
+        function updateEnemys1() {
+            for (i = 0; i < NUM_ENEMY1; i++) {
+                enemy1[i].update();
+            }
+        }
+        function Enemy2() {
+            tEnemy2 = new Sprite(scene, "./image/Police.png", 100, 80);
+            tEnemy2.reset = function () {
+                this.setDY(Road_SPEED);
+                this.setDX(0);
+                newX = Math.random() * scene.width - 10;
+                if (newX > 400) {
+                    newX = newX - 200
+                } else if (newX <= 110) {
+                    newX += 100
+                    if (newX + 100 <= 110) {
+                        newX += 100
+                    } else {
+                        newX = newX + 100
+                    }
+                }
+                this.setPosition(newX, 10);
+            }
+            tEnemy2.checkBounds = function () {
+                // this.reset();
+                if (this.y > scene.height) {
+                    this.reset();
+                }
+            }
+            tEnemy2.reset();
+            return tEnemy2;
+        }
+        function makeEnemys2() {
+            enemy2 = new Array(NUM_ENEMY2);
+            for (i = 0; i < NUM_ENEMY2; i++) {
+                enemy2[i] = new Enemy2();
+            }
+        }
+        function updateEnemys2() {
+            for (i = 0; i < NUM_ENEMY2; i++) {
+                enemy2[i].update();
+            }
+        }
+        function Enemy3() {
+            tEnemy3 = new Sprite(scene, "./image/Mini_truck.png", 100, 80);
+            tEnemy3.reset = function () {
+                this.setDY(Road_SPEED);
+                this.setDX(0);
+                newX = Math.random() * scene.width - 40;
+                if (newX > 400) {
+                    newX = newX - 200
+                } else if (newX <= 110) {
+                    newX += 100
+                    if (newX + 100 <= 110) {
+                        newX += 100
+                    } else {
+                        newX = newX + 100
+                    }
+                }
+
+                this.setPosition(newX, 80);
+            }
+            tEnemy3.checkBounds = function () {
+                // this.reset();
+                if (this.y > scene.height) {
+                    this.reset();
+                }
+            }
+            tEnemy3.reset();
+            return tEnemy3;
+        }
+        function makeEnemys3() {
+            enemy3 = new Array(NUM_ENEMY3);
+            for (i = 0; i < NUM_ENEMY3; i++) {
+                enemy3[i] = new Enemy3();
+            }
+        }
+        function updateEnemys3() {
+            for (i = 0; i < NUM_ENEMY3; i++) {
+                enemy3[i].update();
+            }
+        }
+        function Enemy4() {
+            tEnemy4 = new Sprite(scene, "./image/Mini_van.png", 100, 80);
+            tEnemy4.reset = function () {
+                this.setDY(Road_SPEED);
+                this.setDX(0);
+                newX = Math.random() * scene.width - 40;
+                if (newX > 400) {
+                    newX = newX - 200
+                } else if (newX <= 110) {
+                    newX += 100
+                    if (newX + 100 <= 110) {
+                        newX += 100
+                    } else {
+                        newX = newX + 100
+                    }
+                }
+                this.setPosition(newX, 160);
+            }
+            tEnemy4.checkBounds = function () {
+                if (this.y > scene.height) {
+                    this.reset();
+                }
+            }
+            tEnemy4.reset();
+            return tEnemy4;
+        }
+        function makeEnemys4() {
+            enemy4 = new Array(NUM_ENEMY4);
+            for (i = 0; i < NUM_ENEMY4; i++) {
+                enemy4[i] = new Enemy4();
+            }
+        }
+        function updateEnemys4() {
+            for (i = 0; i < NUM_ENEMY4; i++) {
+                enemy4[i].update();
+            }
+        }
+
+        function checkCollisions() {
+            if (car.distanceTo(enemy[0]) < 40) {
+                enemy[0].reset();
+                count--;
+            }
+            if (car.distanceTo(enemy1[0]) < 40) {
+                enemy1[0].reset();
+                count--;
+            }
+            if (car.distanceTo(enemy2[0]) < 40) {
+                enemy2[0].reset();
+                count--;
+            }
+            if (car.distanceTo(enemy3[0]) < 40) {
+                enemy3[0].reset();
+                count--;
+            }
+            if (car.distanceTo(enemy4[0]) < 40) {
+                enemy4[0].reset();
+                count--;
+            }
+        }
+        function checkCount() {
+            if (count === 0) {
+                document.getElementById("img3").src = "./image/like_2.png"
+                document.getElementById('id01').style.display = 'block';
+                checkTime(false)
+                scene.stop()
+            } else if (count === 2) {
+                document.getElementById("img1").src = "./image/like_2.png"
+            } else if (count === 1) {
+                document.getElementById("img2").src = "./image/like_2.png"
+            }
+        }
+        function Road(speed) {
+            tRoad = new Sprite(scene, "./image/road_5.png", 1000, 1500);
+            tRoad.setDX(0);
+            tRoad.setDY(speed);
+            tRoad.setPosition(250, 300);
+
+            tRoad.checkBounds = function () {
+                if (this.y > 700) {
+                    this.setPosition(250, 100)
+                }
+            }
+            return tRoad;
+        }
+        function retry() {
+            window.location.reload();
+        }
+        function checkCar() {
+            car.checkBounds = function () {
+                if (this.x < 110) {
+                    this.x = 110;
+                } else if (this.x > 400) {
+                    this.x = 400;
+                }
+
+                if (this.y > 770) {
+                    this.y = 770;
+                } else if (this.y < 40) {
+                    this.y = 40;
+                }
+            }
+        }
+
+        function checkTime(status) {
+            time = timer.getElapsedTime();
+            document.getElementById("scoreTime").innerHTML = "Score: " + Math.round(time)
+            if (Math.round(time) % 10 === 0 && Math.round(time) != 0) {
+                if (countTime === 0) {
+                    Road_SPEED = Road_SPEED + 2
+                }
+                countTime++;
+            } else {
+                countTime = 0;
+            }
+            if (Math.round(time) > 100) {
+                car.checkBounds = function () {
+                    if (this.x < 160) {
+                        this.x = 160
+                    } else if (this.x > 340) {
+                        this.x = 340
+                    }
+                }
+                car.update();
+                road.changeImage("./image/road_1.png")
+            }
+            road.setDY(Road_SPEED);
+            road.update();
+            if (status == false) {
+                calScore(time);
+            }
+        }
+        function calScore(score) {
+            document.getElementById("showScore").innerHTML = "Your Score: " + Math.round(score)
+        }
+
+        function init() {
+            var typeCar = "./image/" + localStorage.getItem("typeCar") + ".png";
+            count = 3;
+            timer = new Timer();
+            scene = new Scene();
+            scene.hideCursor();
+
+            car = new Sprite(scene, typeCar, 100, 80);
+
+            car.setSpeed(0);
+            car.setImgAngle(90)
+            car.setPosition(250, 650)
+            road = new Road(10);
+            makeEnemys();
+            makeEnemys1();
+            makeEnemys2();
+            makeEnemys3();
+            makeEnemys4();
+            scene.start();
+
+        } // end init
+
+        function update() {
+            scene.clear();
+            checkTime();
+            if (keysDown[K_LEFT]) {
+                car.changeXby(-10)
+            } else if (keysDown[K_RIGHT]) {
+                car.changeXby(10)
+            } if (keysDown[K_UP]) {
+                car.changeYby(-10)
+            } else if (keysDown[K_DOWN]) {
+                car.changeYby(10)
+            } else {
+                if (car.speed > 0) {
+                    car.changeSpeedBy(-1)
+                } else if (car.speed < 0) {
+                    car.changeSpeedBy(1)
+                } else {
+                    car.setSpeed(0)
+                }
+            }
+            //checkCollisions();
+            //update all the sprites
+            checkCollisions();
+            checkCount();
+            checkCar()
+            road.update();
+
+            car.update();
+            updateEnemys();
+            updateEnemys1();
+            updateEnemys2();
+            updateEnemys3();
+            updateEnemys4();
+        }
+    </script>
+</head>
+
+<body class="bgimg" onload="init()">
+
+    <div class="container">
+        <center>
+            <h1 style="font-size: 40px; color:white;">Racing 2D</h1>
+        </center>
+        <div class="columns">
+            <div class="column is-2 is-offset-4 ">
+                <p id="scoreTime" style="font-size: 20px; color:white;">Score:</p>
+            </div>
+            <div class="column is-2 is-offset-1">
+                <img id="img1" src="image/like_1.png" width="30px">
+                <img id="img2" src="image/like_1.png" width="30px">
+                <img id="img3" src="image/like_1.png" width="30px">
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-container">
+        <div id="id01" class="w3-modal">
+            <div class="w3-modal-content">
+                <header class="w3-container w3-teal">
+                    <span onclick="retry()" class="w3-button w3-display-topright">&times;</span>
+                    <h2 style="font-size: 40px; ">Racing 2D</h2>
+                </header>
+                <div class="w3-container">
+                    <center>
+                        <br />
+                        <p style="font-size: 30px" id="showScore">You Score!!!</p>
+                        <br />
+                        <button class="button is-primary" onclick="retry()">try again</button>&nbsp;&nbsp;&nbsp;
+                        <button class="button is-warning" onclick="window.location.href='./pickcar.html'">choose
+                            car</button>
+                        <p style="font-size: 20px"></p>
+                        <br />
+                    </center>
+                </div>
+                <footer class="w3-container w3-teal">
+                    <br />
+                    <h5>Create By Nuttapus Worarattanadechai 59160561 Group: 1</h5>
+                    <br />
+                </footer>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
